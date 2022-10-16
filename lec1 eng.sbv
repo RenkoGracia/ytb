@@ -1,0 +1,875 @@
+0:00:00.640,0:00:02.560
+Hello everyone My name is Momoko Hayamizu
+
+0:00:02.560,0:00:05.359
+Welcome to my youtube channel
+
+0:00:05.359,0:00:11.280
+In this video，I will explain some of my research results in the field of combinatorial phylogenetics
+
+0:00:11.280,0:00:18.160
+The goal of today’s lecture is to introduce you to the area of discrete mathematical biology
+
+0:00:18.160,0:00:21.199
+So i start by providing some basics of phylogenetics and discrete mathematics
+
+0:00:21.199,0:00:25.199
+And then describe some combinatorial problems on phylogenetic trees and networks
+
+0:00:25.199,0:00:31.840
+Which will be solved in the next lecture
+
+0:00:34.480,0:00:38.239
+So what is phylogenetics
+
+0:00:38.239,0:00:42.399
+phylogenetics is the study of relationships among different groups of organisms
+
+0:00:42.399,0:00:46.079
+and their evolutionary development
+
+0:00:46.079,0:00:49.440
+It’s concerned with tracing the evolutionary histories of organisms
+
+0:00:49.440,0:00:56.160
+typically by analyzing their genetic or morphological similarities
+
+0:00:56.160,0:01:00.000
+The term for phylogenetics may not be quite familiar to you
+
+0:01:00.000,0:01:03.840
+But i think most of you have probably seen a tree
+
+0:01:03.840,0:01:08.240
+depicting the evolutionary processes of different species
+
+0:01:08.240,0:01:12.720
+Such as humans chimpanzees gorillas and so on
+
+0:01:12.720,0:01:16.240
+As you see
+
+0:01:16.240,0:01:20.400
+evolutionary relationships between organisms are commonly represented by a tree
+
+0:01:20.400,0:01:24.240
+called phylogenetic tree
+
+0:01:25.520,0:01:29.600
+Tree is a fundamental model for describing the evolution of organisms
+
+0:01:29.600,0:01:33.040
+And have various applications
+
+0:01:33.040,0:01:36.960
+Including the study of viral evolution
+
+0:01:36.960,0:01:42.320
+"Interestingly, phylogenetic trees are also widely used in non-biological disciplines"
+
+0:01:42.320,0:01:48.000
+To perform hierarchical clustering For example
+
+0:01:48.000,0:01:54.640
+By constructing phylogenetic tree from time series data of stock prices
+
+0:01:54.640,0:01:59.439
+We can find clusters of similar companies
+
+0:02:00.799,0:02:05.119
+Indeed trees are very useful because they are easy to compute
+
+0:02:05.119,0:02:08.959
+Easy to draw and easy to interpret
+
+0:02:08.959,0:02:13.920
+This is why trees have so many applications
+
+0:02:14.879,0:02:18.640
+However trees have critical drawbacks
+
+0:02:18.640,0:02:26.800
+"Obviously, they are too simple or too restrictive to accurately represent complicated information"
+
+0:02:26.800,0:02:33.680
+This is problematic because real world data are almost never precisely represented by a tree
+
+0:02:33.680,0:02:36.480
+And when we analyze real-world data
+
+0:02:36.480,0:02:41.120
+We must deal with noise and uncertainty in them
+
+0:02:41.120,0:02:48.879
+"To see this, let’s look at two simple examples illustrated here"
+
+0:02:48.879,0:02:52.480
+Suppose we wish to estimate evolution of three species
+
+0:02:52.480,0:02:55.840
+Fish dolphins and cats
+
+0:02:55.840,0:02:58.800
+The first example illustrates the situation
+
+0:02:58.800,0:03:04.879
+Where the graph reconstructed from the data are not very tree-like
+
+0:03:04.879,0:03:07.280
+Possibly due to noises or errors in the data
+
+0:03:07.280,0:03:12.080
+But the correct evolutionary history should be represented by a tree
+
+0:03:12.080,0:03:15.840
+As indicated by the solid line
+
+0:03:16.239,0:03:18.000
+As in this example
+
+0:03:18.000,0:03:21.599
+Even if a tree is an appropriate model
+
+0:03:21.599,0:03:27.360
+We always need to handle such noise or errors in the data
+
+0:03:27.360,0:03:31.280
+The next picture illustrates a similar but different situations
+
+0:03:31.280,0:03:37.920
+Imagine that we have two different sources of information
+
+0:03:37.920,0:03:39.519
+On the similarities between the species
+
+0:03:39.519,0:03:46.080
+And that one source is more reliable than the other
+
+0:03:46.080,0:03:48.879
+Just for illustrative purposes
+
+0:03:48.879,0:03:53.760
+Suppose we have constructed two evolutionary trees
+
+0:03:53.760,0:03:57.840
+From morphological data and from genetic data respectively
+
+0:03:57.840,0:04:05.120
+And the tree reconstructed from the genetic information is thought to be more reliable
+
+0:04:05.120,0:04:07.239
+We assemble so
+
+0:04:07.239,0:04:09.040
+According to the genetic data
+
+0:04:09.040,0:04:16.399
+The evolutionary scenario shown by the blue line is correct with probability 0.9
+
+0:04:16.399,0:04:18.880
+As we know dolphins are mammals
+
+0:04:18.880,0:04:22.320
+and are genetically closer to cats than to fish
+
+0:04:22.320,0:04:24.960
+So by focusing on the genetic data
+
+0:04:24.960,0:04:29.440
+We obtain this evolutionary tree with likely for 0.9
+
+0:04:29.440,0:04:33.680
+As indicated by the blue solid line
+
+0:04:34.960,0:04:41.440
+"By contrast, morphologically dolphins are obviously closer to fish in appearance"
+
+0:04:41.440,0:04:44.960
+So as indicated by the red solid line
+
+0:04:44.960,0:04:47.600
+The morphological data suggests that
+
+0:04:47.600,0:04:50.160
+The other possibility whose likelihood is 0.1
+
+0:04:50.160,0:04:56.400
+Less likely than the first one but it’s not negligible
+
+0:04:56.400,0:05:02.800
+This is a case of uncertainty about the true evolutionary history
+
+0:05:02.800,0:05:05.759
+As the second example shows
+
+0:05:05.759,0:05:12.080
+A single phylogenetic tree is often not sufficient to fully describe the given information
+
+0:05:12.080,0:05:17.120
+So we need to use two or more incompatible trees possibly with different weights
+
+0:05:17.120,0:05:23.039
+In order to accurately represent such complex information
+
+0:05:23.280,0:05:25.120
+This is not the focus of this lecture
+
+0:05:25.120,0:05:28.560
+But let me just mention there are other situations
+
+0:05:28.560,0:05:32.000
+Where phylogenetic trees do not work very well
+
+0:05:32.000,0:05:34.800
+For example as you see on the left
+
+0:05:34.800,0:05:40.080
+It’s common for new species to arise from hybridization of different species
+
+0:05:40.080,0:05:43.080
+Especially in the case of plants
+
+0:05:43.080,0:05:48.639
+Hybridization is a event that requires merging as well as branching
+
+0:05:48.639,0:05:54.800
+So we can’t describe that event by a phylogenetic tree
+
+0:05:54.800,0:05:56.280
+Apart from that
+
+0:05:56.280,0:06:00.319
+It’s also well known that in the case of bacteria and viruses
+
+0:06:00.319,0:06:04.880
+A special event called horizontal gene transfer can occur
+
+0:06:04.880,0:06:06.479
+As you see on the right
+
+0:06:06.479,0:06:09.759
+In the case of most animals
+
+0:06:09.759,0:06:14.880
+"Including human genes, are only transmitted vertically from parents to offspring"
+
+0:06:14.880,0:06:17.560
+As all of us know
+
+0:06:17.560,0:06:22.560
+We can’t get a good gene from a friend or seven nearby
+
+0:06:22.560,0:06:24.800
+But surprisingly to us
+
+0:06:24.800,0:06:29.199
+Some bacteria and viruses have a way to do so
+
+0:06:29.199,0:06:32.960
+This is called horizontal gene transfer
+
+0:06:32.960,0:06:38.240
+Which is another example of known tree-like exploration evolution
+
+0:06:38.240,0:06:42.240
+In this lecture i will not discuss these topics further
+
+0:06:42.240,0:06:44.880
+But the important thing is
+
+0:06:44.880,0:06:50.960
+There are many situations in biology that requiure graph structures more complex trees
+
+0:06:50.960,0:06:56.240
+This is why we consider phylogenetic networks
+
+0:06:56.240,0:06:59.840
+They are generalization of phylogenetic trees
+
+0:06:59.840,0:07:04.800
+Phylogenetic networks provide a more flexible model of evolution
+
+0:07:04.800,0:07:07.360
+Because they allow not only branching
+
+0:07:07.360,0:07:12.160
+But also merging of evolutionary analogies
+
+0:07:12.160,0:07:18.720
+But this doesn’t mean that network models are always more useful than trees
+
+0:07:18.720,0:07:22.800
+It’s true that extending the concept of phylogenetic trees
+
+0:07:22.800,0:07:29.039
+Phylogenetic networks are able to represent complex data and phenomena
+
+0:07:29.039,0:07:33.840
+But many problems related to phylogenetic networks have shown to be np hard
+
+0:07:33.840,0:07:37.759
+And also there are still many computational problems
+
+0:07:37.759,0:07:42.479
+Whose complexity is not well understood
+
+0:07:43.199,0:07:47.199
+The focus of this lecture is as we have seen earlier
+
+0:07:47.199,0:07:51.199
+The situation where we wish to identify the true tree
+
+0:07:51.199,0:07:55.919
+Inside a complex phylogenetic network
+
+0:07:56.000,0:08:03.919
+It’s similar to the idea of removing noise from measured raw data to extract meaningful signals
+
+0:08:03.919,0:08:10.639
+Likewise we use a phylogenetic network to accurately represent real-world data
+
+0:08:10.639,0:08:20.400
+And then estimate the true evolutionary tree to explain the data by removing unnecessary arcs
+
+0:08:20.960,0:08:27.520
+there are many of different computational problems relevant to this setting
+
+0:08:27.520,0:08:31.440
+for example the most basic is the decision and search problems
+
+0:08:31.440,0:08:35.440
+"informally speaking, given the phylogenetic network"
+
+0:08:35.440,0:08:41.519
+the decision problem asks whether the underlying tree of the network exists
+
+0:08:41.519,0:08:48.160
+and the search problem asks to find the underlying tree if it exists
+
+0:08:48.160,0:08:55.360
+as you see it's possible that there are two or more underlying the trees in the same network
+
+0:08:55.360,0:09:00.800
+so the counting problem asks how many there are
+
+0:09:00.800,0:09:06.720
+and the listing problem asks to generate all or a designated number of underlying trees
+
+0:09:06.720,0:09:12.640
+and the optimization problem asks to find the best one
+
+0:09:12.640,0:09:16.959
+because so far i have only shown small examples
+
+0:09:16.959,0:09:21.120
+these computational problems may seem too easy
+
+0:09:21.120,0:09:23.399
+but look at this picture
+
+0:09:23.399,0:09:28.120
+if the size of the network increases just a little bit
+
+0:09:28.120,0:09:36.320
+it's not quite obvious how many solutions there are and which one is optimal
+
+0:09:36.320,0:09:39.519
+i will state these problems more formally later today
+
+0:09:39.519,0:09:46.399
+but important thing is the focus of my study is not placed on creating algorithm
+
+0:09:46.399,0:09:50.320
+for each problem or analyzing the complexity of each problem
+
+0:09:50.320,0:09:57.279
+rather the key point of my study is the development of a more general framework
+
+0:09:57.279,0:10:01.760
+for solving different problems in a unified manner
+
+0:10:01.760,0:10:06.760
+so just like the structure theorem for finitely generated Abelian groups
+
+0:10:06.760,0:10:10.399
+which i think learned in algebra class
+
+0:10:10.399,0:10:13.920
+i proved structural theorem for phylogenetic networks
+
+0:10:13.920,0:10:20.320
+which reveals the uniquely decomposable structure of phytogenetic networks
+
+0:10:20.320,0:10:22.800
+And the set of underlying trees
+
+0:10:22.800,0:10:25.600
+as i'll show you in the next lecture
+
+0:10:25.600,0:10:29.279
+The structural theorem for phylogenetic networks
+
+0:10:29.279,0:10:37.440
+immediately derives a series of fast algorithms for various computational problems
+
+0:10:38.399,0:10:42.320
+okay so before formally stating those problems
+
+0:10:42.320,0:10:47.680
+i'll explain necessary mathematical terms and notation
+
+0:10:47.680,0:10:52.160
+a graph is defined to be a pair of sets of vertices and edges
+
+0:10:52.160,0:10:58.959
+and two graphs are called isomorphic if there exists a bijection that preserves adjacency
+
+0:10:58.959,0:11:01.920
+so informally as illustrated here
+
+0:11:01.920,0:11:09.200
+Two graphs can be considered to be the same graph even if they look very different
+
+0:11:10.480,0:11:17.040
+in this lecture i'll use the terms graph and network interchangeably
+
+0:11:17.040,0:11:20.480
+all graphs considered here are finite
+
+0:11:20.480,0:11:27.320
+which means that both the number of vertices and the number of arcs are finite and simple
+
+0:11:27.320,0:11:33.120
+which means no multiple arcs and no loops
+
+0:11:33.120,0:11:37.040
+and directed which means every edge is oriented
+
+0:11:37.040,0:11:40.839
+and acyclic which means no directed cycles
+
+0:11:40.839,0:11:48.959
+the two figures at the bottom are examples of such a graph
+
+0:11:49.440,0:11:54.000
+as i said a graph is defined to be a pair of sets of vertices and arcs
+
+0:11:54.000,0:11:59.279
+so a graph having a set of vertices v and a set of arcs a
+
+0:11:59.279,0:12:03.000
+is denoted by an ordered pair of v and a
+
+0:12:03.000,0:12:05.040
+also given the graph g
+
+0:12:05.040,0:12:09.040
+v of g represents the set of vertices of g
+
+0:12:09.040,0:12:14.079
+and a of g represents the set of arcs of g
+
+0:12:14.480,0:12:19.680
+this is also a standard graph theoretical notation
+
+0:12:19.680,0:12:26.000
+and arc oriented from vertex u to a vertex v
+
+0:12:26.000,0:12:32.320
+is denoted by close parenthesis u v
+
+0:12:32.320,0:12:39.440
+"for any arc a, the head of arc a means the vertex which a arrives at"
+
+0:12:39.440,0:12:46.480
+and the tail of a refers to the vertex which a starts from
+
+0:12:46.480,0:12:48.839
+given a vertex v of a graph g
+
+0:12:48.839,0:12:54.639
+the number of arcs incoming to v is called in degree of v
+
+0:12:54.639,0:12:59.240
+similarly the number of arcs outgoing from v is called out degree of v
+
+0:12:59.240,0:13:09.920
+for example the vertex v in this figure has in degree 1 and out degree 2.
+
+0:13:10.480,0:13:14.800
+given a graph the operation of subdividing its arc
+
+0:13:14.800,0:13:18.560
+consists of inserting a new vertex
+
+0:13:18.560,0:13:27.600
+and replacing the arc in question with the directed path from path of length two
+
+0:13:27.600,0:13:32.519
+the resulting graph is called a subdivision of original graph
+
+0:13:32.519,0:13:39.120
+for example so a graph h is a subdivision of a graph g
+
+0:13:39.120,0:13:43.320
+the reverse operation of arc subdivision is called vertex smoothing
+
+0:13:43.320,0:13:47.560
+and two graphs are said to be homeomorphic
+
+0:13:47.560,0:13:56.880
+if they are isomorphic after smoothing all vertices of in degree 1 and out degree 1.
+
+0:13:57.199,0:14:01.519
+for example graph g and graph h are not isomorphic
+
+0:14:01.519,0:14:05.519
+but they are homeomorphic
+
+0:14:06.560,0:14:11.120
+the composition of a graph is one of the key words in this lecture
+
+0:14:11.120,0:14:18.079
+suppose g is a graph and a prime is a subset of its arc set
+
+0:14:18.079,0:14:26.240
+"for example for a graph g depicted in the bottom,a1 is a subset of its arc set right"
+
+0:14:26.240,0:14:36.720
+"so if we choose a1, then the two arcs in a1 specify the graph in red"
+
+0:14:36.720,0:14:39.920
+g parenthesis a1 close parenthesis
+
+0:14:39.920,0:14:43.199
+which is the sub graph of g induced by a1
+
+0:14:43.199,0:14:52.519
+next we consider partitioning the arc set a of g into non-empty subsets
+
+0:14:52.519,0:15:01.279
+here we have partitioned a of g into three subsets a1 a2 and a3
+
+0:15:01.279,0:15:08.720
+then each subset induces a sub graph of graph g as indicated different colors
+
+0:15:08.880,0:15:15.760
+the collection of these three are called the composition of a graph g
+
+0:15:18.720,0:15:25.760
+"in this lecture, the symbol x always denotes a non-empty finite set"
+
+0:15:25.760,0:15:31.360
+which can be interpreted as a set of present-day species
+
+0:15:31.360,0:15:37.839
+the set x is sometimes called label set or leave set
+
+0:15:38.240,0:15:44.160
+so we now state the definitions of phylogenetic trees and networks
+
+0:15:44.160,0:15:46.399
+here i define phylogenetic networks first
+
+0:15:46.399,0:15:52.000
+Because phylogenetic trees are just a special case of them
+
+0:15:52.000,0:16:00.399
+"so a phylogenetic network, more formally a rooted binary phylogenetic x-network"
+
+0:16:00.399,0:16:03.000
+or a phylogenetic network on x
+
+0:16:03.000,0:16:07.600
+is defined to be any directed and acyclic graph n
+
+0:16:07.600,0:16:11.680
+that has the following three properties
+
+0:16:11.680,0:16:22.160
+first there exists a one to one correspondence between the labels at x and the set of leaves of n
+
+0:16:22.160,0:16:29.120
+and second n has a unique route whose in degree is zero
+
+0:16:29.360,0:16:38.959
+third any other vertex has in degree one out degree two or in degree 2 and out degree 1.
+
+0:16:38.959,0:16:46.639
+a vertex of in degree 2 and out degree 1 is called reticulation vertex of n
+
+0:16:46.639,0:16:50.000
+in the case when n has no reticulation vertex
+
+0:16:50.000,0:16:57.680
+and is particularly called a rooted binary phylogenetic  x tree or tree on x
+
+0:16:57.680,0:17:01.120
+in this lecture we often omit rooted binary and stuff
+
+0:17:01.120,0:17:04.720
+because we only consider such networks
+
+0:17:04.720,0:17:08.000
+for notational simplicity we use the notation tx and nx
+
+0:17:08.000,0:17:15.439
+to represent collections of all rooted binary phylogenetic x trees and networks
+
+0:17:15.439,0:17:23.359
+okay so we have defined phylogenetic trees and its generalization phylogenetic networks
+
+0:17:23.359,0:17:28.559
+there are many subclasses of phylogenetic networks
+
+0:17:28.559,0:17:35.440
+but in this lecture we discuss problems regarding tree-based networks
+
+0:17:37.039,0:17:42.000
+as shown here so are tree-based networks
+
+0:17:42.320,0:17:43.880
+as the name indicates
+
+0:17:43.880,0:17:51.360
+tree-based networks are phylogenetic networks that can be obtained from a phylogenetic tree
+
+0:17:51.360,0:17:54.400
+well they are very easy to construct
+
+0:17:54.400,0:18:03.360
+we first pick any rooted binary phytogenetic x tree as a base initial tree
+
+0:18:03.360,0:18:07.280
+then if we subdivide arcs of the base tree
+
+0:18:07.280,0:18:12.320
+then new vertices appear
+
+0:18:12.559,0:18:16.160
+like this they are new vertices
+
+0:18:16.160,0:18:19.280
+then we place extra arcs between them
+
+0:18:19.280,0:18:23.679
+and perform the vertical smoothing operation where possible
+
+0:18:23.679,0:18:28.880
+the resulting phylogenetic network is called tree-based network
+
+0:18:28.880,0:18:37.360
+so they can be intuitively understood as a phylogenetic tree plus additional noises
+
+0:18:37.360,0:18:38.520
+this definition is fine
+
+0:18:38.520,0:18:45.120
+but in this lecture i use another as following equivalent definition
+
+0:18:45.120,0:18:50.480
+suppose n is a rooted binary phylogenetic x network
+
+0:18:50.480,0:18:55.760
+and t prime is a rooted binary phylogenetic x network
+
+0:18:55.760,0:18:56.880
+the same x
+
+0:18:56.880,0:19:03.520
+then if has a spanning tree t that is a subdivision of t prime
+
+0:19:03.520,0:19:12.559
+then n is called a tree-based network and t is called subdivision tree of n
+
+0:19:12.559,0:19:17.000
+remember in the previous example about the evolution of fish dolphins and cats
+
+0:19:17.000,0:19:21.280
+we can see that a subdivision tree of n
+
+0:19:21.280,0:19:27.039
+is nothing but a tree underlying the non-tree-like data
+
+0:19:27.039,0:19:33.360
+here are some important remarks on tree-based networks and subdivision trees
+
+0:19:34.080,0:19:40.559
+first tree-base networks form a proper subclass of phylogenetic networks
+
+0:19:40.559,0:19:41.280
+In other words
+
+0:19:41.280,0:19:48.559
+there exists a phylogenetic network that has no subdivision tree
+
+0:19:48.559,0:19:52.679
+the network on the right is an example of such a network
+
+0:19:52.679,0:19:56.160
+from this observation it's natural to ask
+
+0:19:56.160,0:19:58.600
+given a phylogenetic network n
+
+0:19:58.600,0:20:02.919
+how to determine whether n is tree based or not
+
+0:20:02.919,0:20:08.720
+and how to find subdivision tree of n if n is tree-based
+
+0:20:08.720,0:20:14.320
+this is what decision and search problems are asking for
+
+0:20:14.720,0:20:17.280
+the second remark is that
+
+0:20:17.280,0:20:22.240
+Any phylogenetic network can be converted into tree based network
+
+0:20:22.240,0:20:26.960
+by attaching extra leaves
+
+0:20:28.080,0:20:32.840
+this observation leads to the following variant of the decision problem which i call
+
+0:20:32.840,0:20:37.919
+the deviation quantification problem
+
+0:20:37.919,0:20:39.640
+the question here is
+
+0:20:39.640,0:20:45.360
+how to measure deviation from being tree-based
+
+0:20:45.360,0:20:48.240
+The deviation measure delta
+
+0:20:48.240,0:20:53.640
+is defined to be the minimum number of extra leaves required to make entryways
+
+0:20:53.640,0:20:57.400
+this problem is a variant of the previous decision problem
+
+0:20:57.400,0:20:59.919
+in the decision problem
+
+0:20:59.919,0:21:03.919
+the only question is whether the network is tree based or not
+
+0:21:03.919,0:21:06.960
+so the answer is always yes or no
+
+0:21:06.960,0:21:08.440
+but in this problem
+
+0:21:08.440,0:21:10.400
+if the network is not tree-based
+
+0:21:10.400,0:21:13.360
+"we want to evaluate, we want to quantify"
+
+0:21:13.360,0:21:17.000
+how much the network deviates from being tree based
+
+0:21:17.000,0:21:21.760
+the final remark is that
+
+0:21:21.760,0:21:27.200
+as i said tree based network can have many subdivision trees
+
+0:21:27.200,0:21:29.480
+this example network has only two
+
+0:21:29.480,0:21:36.159
+but in general the number of subdivision trees can be exponentially many
+
+0:21:36.159,0:21:39.840
+so it's natural to ask how to compute the number alpha
+
+0:21:39.840,0:21:46.400
+this is what the counting problem is asking for
+
+0:21:46.799,0:21:54.400
+likewise a listing problem requires computing a list of all subdivision trees of n
+
+0:21:54.960,0:21:58.080
+so far we have only considered problems
+
+0:21:58.080,0:22:01.760
+where the input network is unweighted
+
+0:22:01.760,0:22:04.240
+but as i mentioned at the beginning
+
+0:22:04.240,0:22:09.679
+it's also interesting to consider optimization problems
+
+0:22:09.679,0:22:14.440
+Where each arc has a positive weight
+
+0:22:14.440,0:22:16.320
+such as a probability
+
+0:22:16.320,0:22:23.440
+and we want to maximize some objective functions such as the likelihood or log likelihood
+
+0:22:23.440,0:22:27.280
+there was no previous work on this optimization problem
+
+0:22:27.280,0:22:30.320
+but recalling alpha can be exponential
+
+0:22:30.320,0:22:36.799
+we can immediately see that a naive approach would take exponential time
+
+0:22:37.280,0:22:41.919
+the last problem is a combination of the optimization problem
+
+0:22:41.919,0:22:45.840
+"and the enumeration problem, a listing problem"
+
+0:22:45.840,0:22:54.960
+in many practical situations the value of the objective function can be almost the same in the first second third and kth places
+
+0:22:54.960,0:22:56.600
+in such situations
+
+0:22:56.600,0:23:00.760
+it's not a good idea to compute only one optimal tree
+
+0:23:00.760,0:23:04.240
+ignoring all the nearly optimal solutions
+
+0:23:04.240,0:23:08.880
+that might be very meaningful or insightful biologically
+
+0:23:08.880,0:23:11.360
+so it's meaningful to consider how to
+
+0:23:11.360,0:23:16.960
+compute the ranking of top k trees in a tree based networks
+
+0:23:18.480,0:23:20.039
+to recap today's lecture
+
+0:23:20.039,0:23:24.360
+we have learned the definitions of phylogenetic trees and networks
+
+0:23:24.360,0:23:29.679
+and the concepts of tree based networks and subdivision trees
+
+0:23:29.679,0:23:33.120
+then we have seen various computational problems
+
+0:23:33.120,0:23:41.120
+associated with finding the true evolutionary tree within complicated phylogenetic network
+
+0:23:41.440,0:23:43.840
+okay this is the end of today's lecture
+
+0:23:43.840,0:23:48.559
+in the next video i'll show you a structure theorem for phylogenetic networks
+
+0:23:48.559,0:24:00.559
+that solves all the problems we discussed today

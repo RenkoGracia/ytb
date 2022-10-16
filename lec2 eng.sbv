@@ -1,0 +1,887 @@
+0:00:00.399,0:00:01.560
+in the previous lecture
+
+0:00:01.560,0:00:07.359
+i described various computational problems regarding phylogenetic trees and networks
+
+0:00:07.359,0:00:17.920
+today i'm going to show you how to solve them
+
+0:00:20.720,0:00:25.840
+let's start with a quick reminder of what we learned in the previous lecture
+
+0:00:25.840,0:00:27.320
+in the last lecture
+
+0:00:27.320,0:00:31.199
+i provided the definitions of phylogenetic trees and networks
+
+0:00:31.199,0:00:34.719
+and explained the concept of subdivision trees
+
+0:00:34.719,0:00:42.640
+that is underlying trees inside a possibly very complicated phylogenetic network
+
+0:00:42.640,0:00:50.719
+phylogenetic networks that have at least one subdivision tree are called tree based networks
+
+0:00:50.719,0:00:58.320
+then we looked at seven computational problems concerning subdivision trees
+
+0:00:58.320,0:01:05.280
+the problems are the decision problem search problem deviation quantification problem
+
+0:01:05.280,0:01:12.799
+counting problem listing problem optimization problem and the top k ranking problem
+
+0:01:12.799,0:01:15.840
+in this lecture i'll focus on the first six problems
+
+0:01:15.840,0:01:19.520
+since the analysis of the last one is a bit too technical
+
+0:01:19.520,0:01:22.640
+but anyway the point of today's lecture is that
+
+0:01:22.640,0:01:26.400
+all of these problems can be solved by one theorem
+
+0:01:26.400,0:01:31.520
+which i call a structural theorem for phylogenetic networks
+
+0:01:31.520,0:01:33.159
+this theorem is very useful
+
+0:01:33.159,0:01:41.000
+because it works as a common framework for solving different problems in a unified way
+
+0:01:41.000,0:01:43.960
+in fact as we'll see later today
+
+0:01:43.960,0:01:51.840
+it gives rise to a set of fast algorithms for variety of problems on subdivision trees
+
+0:01:52.479,0:01:55.479
+similarly to many other structure theorems
+
+0:01:55.479,0:01:58.360
+including the structural theorem for finite dividing groups
+
+0:01:58.360,0:02:01.119
+which will be reviewed in the next slide
+
+0:02:01.119,0:02:05.520
+the statement of this theorem can be divided into two parts
+
+0:02:05.520,0:02:13.360
+firstly it clarifies the simplest building blocks for building all rooted binary phylogenetic networks
+
+0:02:13.360,0:02:16.239
+more precisely as i'll explain later
+
+0:02:16.239,0:02:23.120
+It provides a unique canonical decomposition of rooted binary phylogenetic networks
+
+0:02:23.120,0:02:26.040
+then based on the canonical decomposition
+
+0:02:26.040,0:02:33.760
+it characterizes the set of all subdivision trees in the form of a direct product
+
+0:02:33.920,0:02:36.319
+to give you a clear picture
+
+0:02:36.319,0:02:43.200
+let's quickly review some basic knowledge of abstract algebra before going into more detail
+
+0:02:43.680,0:02:48.400
+among the many structure theorems established in various branches of mathematics
+
+0:02:48.400,0:02:52.640
+perhaps the most famous is the structural theorem for finite dividing groups
+
+0:02:52.640,0:02:58.480
+which is also known as the fundamental theorem for all finite abelian groups
+
+0:02:58.480,0:03:00.239
+Roughly speaking it states that
+
+0:03:00.239,0:03:01.239
+every finite abelian group
+
+0:03:01.239,0:03:06.640
+can be uniquely decomposed as a direct product of finite many cyclic groups
+
+0:03:06.640,0:03:12.480
+in much the same way as the prime factor decomposition of natural numbers
+
+0:03:12.480,0:03:14.640
+the application of the theorem includes
+
+0:03:14.640,0:03:19.840
+the problem of counting finite Abelian groups of order n
+
+0:03:19.840,0:03:24.400
+for example how many Abelian groups are there of order 144
+
+0:03:24.400,0:03:32.879
+the number 144 is decomposed as 2 to the power 4 times 3 to the power 2.
+
+0:03:32.879,0:03:38.159
+there are 5 different partitions of the integer 4
+
+0:03:38.159,0:03:41.920
+and there are two different partitions of the integer 2.
+
+0:03:41.920,0:03:43.920
+so the number of all the possible choices
+
+0:03:43.920,0:03:51.000
+namely the number of abelian groups of order 144 equals five times two
+
+0:03:51.000,0:03:53.439
+of course if you wish
+
+0:03:53.439,0:03:56.560
+it's also possible to list all the possible choices
+
+0:03:56.560,0:03:59.920
+all the Abelian groups of order 144
+
+0:03:59.920,0:04:03.120
+as you can see here
+
+0:04:04.879,0:04:09.519
+so the goal of today's lecture is to show a structure theorem
+
+0:04:09.519,0:04:11.640
+relevant to our context
+
+0:04:11.640,0:04:18.160
+and to understand how it helps us solve the problems we saw earlier
+
+0:04:20.000,0:04:24.759
+okay so to begin with let's have a look at this obvious but important remark
+
+0:04:24.759,0:04:30.960
+suppose we want to construct a subdivision tree of a tree based network n
+
+0:04:30.960,0:04:34.479
+remember any subdivision tree is a spanning tree of n
+
+0:04:34.479,0:04:39.520
+so the set of vertices of t must be identical to the set of vertices of n
+
+0:04:39.520,0:04:45.040
+this means that there is no choice about the vertex set
+
+0:04:45.040,0:04:50.160
+So the only point to be considered is which arcs to be chosen
+
+0:04:50.160,0:04:54.560
+obviously if we arbitrarily choose a subset s of a n
+
+0:04:54.560,0:04:59.600
+then s may or may not induce a subdivision tree of n
+
+0:04:59.600,0:05:03.840
+if we carefully choose an admissible set of arcs
+
+0:05:03.840,0:05:06.960
+then we can get a subdivision tree
+
+0:05:06.960,0:05:09.000
+as indicated by the red lines
+
+0:05:09.000,0:05:13.600
+but if we choose a wrong one as indicated by the blue lines here
+
+0:05:13.600,0:05:18.240
+the resulting subgraph is not subdivision tree of n
+
+0:05:18.240,0:05:21.440
+in fact it may not be a tree
+
+0:05:21.440,0:05:23.800
+may not have a unique root
+
+0:05:23.800,0:05:28.160
+or may have a leaf set other than x
+
+0:05:29.000,0:05:32.440
+then a natural question arises
+
+0:05:32.440,0:05:40.320
+what are the rules that determine whether or not s induces a subdivision tree of n
+
+0:05:40.320,0:05:44.639
+this question was initially addressed by francis and steel in their first paper
+
+0:05:44.639,0:05:47.240
+On tree based networks
+
+0:05:47.240,0:05:51.560
+they characterized when s introduces subdivision tree
+
+0:05:51.560,0:05:56.080
+by using three conditions that are very easy to understand
+
+0:05:56.080,0:06:01.919
+first as illustrated in the two figures at the bottom left
+
+0:06:01.919,0:06:07.039
+If n contains an arc either arriving at the vertex of in degree 1
+
+0:06:07.039,0:06:10.160
+or leaving the vertex of out degree 1
+
+0:06:10.160,0:06:12.319
+we must choose it
+
+0:06:12.319,0:06:17.440
+it's easy to see that
+
+0:06:17.440,0:06:23.919
+if we exclude such an arc from s
+
+0:06:24.319,0:06:28.319
+then s would induce a subgraph having a leaf not in x or an extra root vertex
+
+0:06:29.120,0:06:35.600
+second as illustrate in the middle
+
+0:06:35.600,0:06:40.720
+if n has two arcs entering a vertex of in degree two
+
+0:06:42.000,0:06:45.360
+then we must choose exactly one of them
+
+0:06:45.360,0:06:48.880
+because we want to construct a tree
+
+0:06:48.880,0:06:51.919
+it's clear that we can't choose both of them
+
+0:06:51.919,0:06:56.960
+obviously we can't ignore both of them either
+
+0:06:57.440,0:07:01.199
+because otherwise we would have a subgraph with an extra root
+
+0:07:01.199,0:07:07.639
+third as shown on the right
+
+0:07:07.639,0:07:11.919
+if n has two arcs leaving a vertex of out degree two
+
+0:07:12.880,0:07:18.720
+we must choose at least one of them
+
+0:07:18.720,0:07:22.080
+satisfying these three is a necessary and sufficient condition
+
+0:07:22.080,0:07:27.199
+for s to induce subdivision tree of n
+
+0:07:27.199,0:07:32.440
+this means that we can automatically get a subdivision tree of n
+
+0:07:32.440,0:07:34.720
+By simply selecting x to satisfy these three conditions
+
+0:07:34.720,0:07:40.160
+from this it follows that
+
+0:07:40.160,0:07:45.280
+there is a one-to-one correspondence between the set of subdivision trees of n
+
+0:07:45.280,0:07:48.800
+and set of the arcs of n satisfying the three conditions
+
+0:07:48.800,0:07:54.080
+let's call such a subset of a an admissible
+
+0:07:54.080,0:07:59.479
+then we can rephrase the problems we saw earlier
+
+0:07:59.479,0:08:04.639
+so the decision problem asks whether or not there is an admissible arc set
+
+0:08:04.639,0:08:09.919
+the search problem asks for one admissible set
+
+0:08:09.919,0:08:17.360
+the counting problem asks how many admissible arc sets there are
+
+0:08:17.360,0:08:21.199
+The listing problem similarly asks to generate all admissible subsets of an and so on
+
+0:08:21.199,0:08:30.160
+to solve these problems i now introduce a key concept
+
+0:08:30.160,0:08:36.000
+that is a maximal zigzag trail in a rooted binary phylogenetic x network
+
+0:08:36.000,0:08:42.240
+intuitively a zigzag trail in n is a subgraph of n such that
+
+0:08:42.240,0:08:47.360
+the sequence of arcs forms a repetition of up and down movements
+
+0:08:47.360,0:08:53.360
+as indicated by the green line here
+
+0:08:53.360,0:08:57.600
+more formally a sub graph set of n is said to be a zigzag trail in n
+
+0:08:57.600,0:09:03.040
+If there is an ordering of its arcset such that
+
+0:09:04.959,0:09:13.120
+any two consecutive arcs have a common head or tail
+
+0:09:13.120,0:09:21.519
+for example the green sub graph on the left is a zigzag trail in this phytogenic network
+
+0:09:21.519,0:09:25.040
+Because if we order the four arcs of it from left to right as a1 a2 a3 a4
+
+0:09:25.040,0:09:29.360
+Then a1 and a2 share the tail
+
+0:09:29.600,0:09:32.720
+a2 and a3 share their head
+
+0:09:32.720,0:09:39.360
+and a3 and a4 share the tail
+
+0:09:40.000,0:09:43.839
+so there exists such a permutation of its arcs
+
+0:09:43.839,0:09:47.519
+notice the difference from the red sub graph on the right
+
+0:09:47.519,0:09:52.560
+which is an usual directed path
+
+0:09:52.560,0:09:54.920
+where each arc is oriented in the same direction
+
+0:09:54.920,0:09:56.959
+for this red sub graph
+
+0:09:56.959,0:10:00.240
+there is no such a permutation
+
+0:10:00.240,0:10:04.240
+so it's not a zigzag trail
+
+0:10:04.240,0:10:08.680
+in addition we say zigzag trail is maximal
+
+0:10:08.680,0:10:16.480
+if it is not a part of another strictly longer zigzag trail in the network
+
+0:10:16.480,0:10:24.160
+for example the green sub graph at the bottom is a zigzag trail in the network right
+
+0:10:26.160,0:10:29.279
+but it's not maximal because it's a sub graph of the previous zigzag trail
+
+0:10:29.279,0:10:37.839
+"by contrast, the previous one is maximal"
+
+0:10:37.920,0:10:43.839
+because we can't extend it to a longer zigzag trail in the network so it's maximum
+
+0:10:43.839,0:10:46.959
+okay so why is the concept of maximal zigzag trail so important for us
+
+0:10:46.959,0:10:53.440
+because it turns out every rooted binary phylogenetic network is decomposed into its maximal zigzag trails
+
+0:10:53.440,0:10:56.560
+that are uniquely determined
+
+0:10:56.560,0:10:59.320
+as you can verify easily
+
+0:10:59.320,0:11:04.160
+"the zigzag trails, a rooted binary phylogenetic network"
+
+0:11:04.160,0:11:07.360
+can be classified into only four types
+
+0:11:07.360,0:11:10.040
+as illustrated on the right
+
+0:11:10.040,0:11:16.079
+those that look back to the starting point are called crowns
+
+0:11:18.240,0:11:27.040
+and those that don't loop and form the letter m are m-fences
+
+0:11:27.279,0:11:36.760
+those that have an odd number of arcs to form the letter n are n-fences
+
+0:11:36.760,0:11:42.160
+and those that form the letter w are w-fences
+
+0:11:42.160,0:11:49.200
+so for example this network on the left is decomposed into
+
+0:11:49.839,0:11:53.880
+a maximal m-fence with two arcs
+
+0:11:53.880,0:11:58.959
+another maximal m-fence with two arcs
+
+0:11:58.959,0:12:04.320
+a maximal m-fence with six arcs
+
+0:12:10.200,0:12:14.480
+a maximal w-fence with two arcs
+
+0:12:14.720,0:12:18.959
+a maximal n-fence with three arcs
+
+0:12:19.040,0:12:25.760
+and a maximal n-fence having only one arc
+
+0:12:25.760,0:12:28.880
+by the way in a binary network
+
+0:12:28.880,0:12:32.800
+No two maximal zigzag trails have a common arc
+
+0:12:32.800,0:12:36.000
+so as i demonstrated just now
+
+0:12:36.000,0:12:39.839
+we can obtain the set of maximal zigzag trails
+
+0:12:39.839,0:12:44.040
+by visiting each arc of the network exactly once
+
+0:12:44.040,0:12:51.200
+so it follows that the maximal zigzag trail decomposition can be computed in linear time
+
+0:12:51.200,0:12:56.880
+"in the size of n,in the size of the input network"
+
+0:12:57.440,0:13:00.800
+anyhow the important thing is
+
+0:13:00.800,0:13:06.160
+such decomposition is always uniquely determined by each network
+
+0:13:06.160,0:13:09.440
+so no matter how complex it is
+
+0:13:09.440,0:13:13.680
+any rooted binary phylogenetic network can be canonically decomposed into
+
+0:13:13.680,0:13:18.079
+a unique set of such simple pieces
+
+0:13:18.079,0:13:22.399
+then we can immediately obtain this useful lemma
+
+0:13:22.399,0:13:27.560
+it's very similar to the previous conditions established by francis and steel
+
+0:13:27.560,0:13:30.399
+but the important difference is that
+
+0:13:30.399,0:13:35.839
+we don't need to look at the entire arcset of the network
+
+0:13:36.560,0:13:42.240
+once we have decomposed the network into its unique maximal zigzag trails
+
+0:13:42.240,0:13:50.240
+all we have to do is to find an admissible arcset within each maximal zigzag trail
+
+0:13:50.240,0:13:54.320
+And then take the union of those admissible subsets
+
+0:13:54.320,0:13:54.959
+okay so for example
+
+0:13:54.959,0:14:02.399
+i now demonstrate how to find an admissible arcset of the maximum Zigzag trail
+
+0:14:02.399,0:14:07.279
+indicated by the red line in the right figure
+
+0:14:08.560,0:14:14.360
+suppose we have decided to include this arc as a member of s
+
+0:14:14.360,0:14:18.399
+in this case according to the condition 3
+
+0:14:18.399,0:14:21.760
+we may or may not pick the next one
+
+0:14:21.760,0:14:24.880
+but here we do them
+
+0:14:24.880,0:14:29.600
+by the condition 2 we can't use the next arc
+
+0:14:29.600,0:14:32.880
+by the same reason we then have to select this arc
+
+0:14:32.880,0:14:36.959
+and we can't select the next one
+
+0:14:36.959,0:14:40.160
+finally by the condition one or condition three
+
+0:14:40.160,0:14:44.720
+we must include the last one
+
+0:14:44.720,0:14:53.279
+thus we have obtained an admissible subset within this maximal zigzag trail
+
+0:14:55.680,0:14:56.839
+in the same manner
+
+0:14:56.839,0:15:02.720
+we can even explicitly represent the family of all admissible arcsets
+
+0:15:02.720,0:15:06.399
+for each type of maximal zigzag trail
+
+0:15:06.399,0:15:12.880
+as you can see easily in the case where i is a crown
+
+0:15:12.880,0:15:17.120
+there are two admissible arcsets
+
+0:15:17.519,0:15:22.959
+in the case where Zi is a maximal m-fence
+
+0:15:22.959,0:15:29.440
+the number of possible choices is half the length of set i
+
+0:15:33.440,0:15:36.560
+when zi is a maximal n-fence
+
+0:15:36.560,0:15:39.920
+there is the only one admissible arcset
+
+0:15:39.920,0:15:46.160
+Finally in the case of maximal w-fence
+
+0:15:46.160,0:15:49.440
+there's no other admissible arcset
+
+0:15:49.440,0:15:51.800
+so from these observations it follows that
+
+0:15:51.800,0:15:55.279
+if n has a maximal w fence
+
+0:15:55.279,0:16:01.759
+then there's no subdivision tree of n
+
+0:16:01.759,0:16:10.160
+on the other hand if n is composed of the other types of maximal zigzag trails
+
+0:16:10.160,0:16:12.519
+then simply by choosing one of the possible choices within each maximal zigzag trail
+
+0:16:12.519,0:16:18.240
+"then by doing so we can create, we can construct any subdivision tree of n"
+
+0:16:18.240,0:16:21.920
+therefore the family of admissible arcsets
+
+0:16:21.920,0:16:26.399
+Namely the set of all subdivision trees of a tree based network
+
+0:16:26.399,0:16:31.920
+can be expressed as a direct product of the family of all possible choices
+
+0:16:31.920,0:16:37.680
+within each maximal zigzag trail
+
+0:16:37.680,0:16:41.519
+this is the second part of the main result
+
+0:16:41.759,0:16:44.959
+so putting the two results together
+
+0:16:44.959,0:16:51.839
+We obtain a structural theorem for rooted binary phylogenetic network
+
+0:16:55.040,0:17:00.880
+from this structural theorem we can derive a number of algorithms
+
+0:17:02.160,0:17:03.359
+as a preprocessing
+
+0:17:03.359,0:17:11.439
+each algorithm starts by decomposing an input network n into maximal signal trails
+
+0:17:11.439,0:17:16.640
+Which requires linear time as i explained earlier
+
+0:17:16.880,0:17:24.319
+importantly having characterized the set of subdivision trees in terms of a direct product
+
+0:17:24.319,0:17:29.480
+we can recognize the integers that constitute the number of subdivision trees
+
+0:17:29.480,0:17:32.200
+Like prime factorization
+
+0:17:32.200,0:17:38.320
+so we can count number alpha how many subdivision trees there are
+
+0:17:38.320,0:17:43.360
+simply by multiplying the number of admissible arc sets
+
+0:17:43.360,0:17:46.720
+within each maximum zigzag trail
+
+0:17:46.720,0:17:50.160
+notice that this algorithm can solve the decision
+
+0:17:50.160,0:17:53.120
+and counting problems simultaneously
+
+0:17:53.120,0:17:55.960
+Because number alpha is non-zero
+
+0:17:55.960,0:18:00.559
+if and only if the network is tree based
+
+0:18:00.559,0:18:03.679
+in this example as we have seen
+
+0:18:03.679,0:18:08.120
+The network contains a maximal w-fence z5
+
+0:18:08.120,0:18:12.400
+so alpha n is equal to 0.
+
+0:18:12.480,0:18:14.360
+of course by contrast
+
+0:18:14.360,0:18:17.520
+if the input network is w-fence free
+
+0:18:17.520,0:18:19.320
+as you can see on the left
+
+0:18:19.320,0:18:22.000
+then alpha should be a positive integer
+
+0:18:22.000,0:18:26.160
+that represents the number of subdivision trees of these tree based networks
+
+0:18:26.160,0:18:29.360
+this network
+
+0:18:29.360,0:18:34.200
+the algorithm for the deviation quantification problem needs some explanation
+
+0:18:34.200,0:18:36.480
+but it's quite easy
+
+0:18:36.480,0:18:40.559
+it simply counts how many maximal w-fences there are
+
+0:18:40.559,0:18:45.600
+and returns the number as the deviation measure for the network
+
+0:18:45.600,0:18:47.640
+this algorithm is correct
+
+0:18:47.640,0:18:51.760
+because if n contains the forbidden component
+
+0:18:51.760,0:18:54.960
+namely a maximal w-fence
+
+0:18:54.960,0:19:03.600
+then we can break it just by attaching one additional leaf to it
+
+0:19:03.600,0:19:06.880
+therefore computing delta
+
+0:19:06.880,0:19:10.400
+which is defined to be the minimum number of extra leaves
+
+0:19:10.400,0:19:13.760
+necessary to convert n into tree base network
+
+0:19:13.760,0:19:20.559
+is nothing more than counting the number of maximal w-fences in n
+
+0:19:23.520,0:19:26.880
+the search problem is also easy to solve
+
+0:19:26.880,0:19:32.919
+given a tree based network and by picking any admissible subset
+
+0:19:32.919,0:19:38.640
+within each maximal zigzag trail and taking the union of the selected arcs
+
+0:19:38.640,0:19:45.039
+then the set of those arcs induces a subdivision tree of n
+
+0:19:47.280,0:19:52.320
+remarkably the optimization problem can be solved easily in linear time
+
+0:19:52.320,0:19:54.760
+in a quite similar way
+
+0:19:54.760,0:20:01.240
+this is because the union of the best arc set within each maximal zigzag trail
+
+0:20:01.240,0:20:05.000
+induces the best subdivision tree of the network
+
+0:20:05.000,0:20:06.000
+in other words
+
+0:20:06.000,0:20:12.080
+we can automatically get the global optimum simply by collecting an optimal solution
+
+0:20:12.080,0:20:15.919
+Within each maximal zigzag trail
+
+0:20:15.919,0:20:22.720
+So we see that there's no need to list and examine all the possible subdivision trees of n
+
+0:20:22.720,0:20:25.760
+which is really nice
+
+0:20:28.000,0:20:33.039
+then how can we list all of them if we wish to do so
+
+0:20:33.039,0:20:37.520
+the listing problem is similar to the search problem
+
+0:20:37.520,0:20:40.640
+so just the same as we did earlier
+
+0:20:40.640,0:20:45.679
+the algorithm outputs our first solution in linear time
+
+0:20:45.679,0:20:48.960
+this is the same one as before
+
+0:20:48.960,0:20:58.960
+And then output all subdivision trees of n one after another t1 t2 t3
+
+0:20:58.960,0:21:03.840
+until it has listed all subdivision trees
+
+0:21:05.200,0:21:12.039
+the algorithm described here belongs to the most efficient class of listing algorithms
+
+0:21:12.039,0:21:16.400
+since it runs with a linear time delay
+
+0:21:16.400,0:21:21.919
+Namely it's an algorithm with the following three properties
+
+0:21:22.480,0:21:28.400
+first the algorithm can output a fast solution in linear time
+
+0:21:28.400,0:21:32.240
+linear time in the input size
+
+0:21:32.960,0:21:38.480
+second the algorithm can continue to generate another solution one after another
+
+0:21:38.480,0:21:45.320
+such that the time between any two consecutive solutions to outputs
+
+0:21:45.320,0:21:51.120
+is bounded by a linear function of the input size
+
+0:21:54.320,0:22:04.240
+third the algorithm can decide in linear time in the input size again whether to terminate
+
+0:22:06.799,0:22:12.000
+linear time delay listing algorithms are really nice
+
+0:22:12.000,0:22:20.400
+because their running time is linear in both input size and output size
+
+0:22:23.760,0:22:29.520
+okay so we have seen various algorithms derived from the structural theorem
+
+0:22:29.520,0:22:33.760
+i'll finish today's lecture with a demonstration of
+
+0:22:33.760,0:22:38.080
+data analysis using one of those algorithms
+
+0:22:38.080,0:22:46.120
+so imagine that there is a biologist studying the evolution of eight different species
+
+0:22:46.120,0:22:51.120
+and he wants to reconstruct the evolutionary tree from some biological data
+
+0:22:51.120,0:22:58.320
+he took into account all the possible evolutionary paths
+
+0:22:58.720,0:23:03.039
+and ended up with a network shown on the left
+
+0:23:03.039,0:23:05.080
+the network is far from a tree
+
+0:23:05.080,0:23:13.559
+so he came to ask you whether or not it's meaningful to analyze such a network
+
+0:23:13.559,0:23:18.159
+Indeed the network is so complex as a honeycomb
+
+0:23:18.159,0:23:23.840
+but it's still a tree-based network right
+
+0:23:24.480,0:23:31.120
+once you have obtained the maximum zigzag trail decomposition
+
+0:23:31.120,0:23:31.840
+as described here
+
+0:23:31.840,0:23:42.960
+you can quickly see that by a hand calculation the number of subdivision trees of this network is 5040.
+
+0:23:42.960,0:23:50.400
+it's a fairly large number that tells us how complicated the network is
+
+0:23:50.400,0:23:59.840
+but notice that it's still much smaller than the number of all phylogenetic trees with eight leaves
+
+0:24:00.880,0:24:05.520
+so fortunately for the person you can conclude that
+
+0:24:05.520,0:24:08.880
+Although the network is not tree like at all
+
+0:24:08.880,0:24:17.200
+it does contain meaningful information for the search for the correct tree
+
+0:24:17.200,0:24:19.320
+Okay as this example indicates
+
+0:24:19.320,0:24:25.520
+the algorithm described today are expected to find many practical applications
+
+0:24:25.520,0:24:33.840
+in various real world settings
+
+0:24:50.000,0:24:52.320
+okay this is the end of my lecture
+
+0:24:52.320,0:25:00.480
+I hope my videos provided a good introduction to discrete mathematical biology
